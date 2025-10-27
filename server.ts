@@ -8,7 +8,7 @@ const app = express();
 
 // Allow frontend origin from environment variable or localhost for dev
 const allowedOrigins = process.env.FRONTEND_URL 
-  ? [process.env.FRONTEND_URL, "http://localhost:5173"]
+  ? [process.env.FRONTEND_URL, "http://localhost:5173", "https://buhari-frontend.vercel.app"]
   : ["http://localhost:5173"];
 
 app.use(cors({ 
