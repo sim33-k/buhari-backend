@@ -14,14 +14,14 @@ export class PrismaOrderRepository implements IOrderRepository {
         // the order dto has the order items inside it
         // since there are few menu items, we can fetch them all at the same time
 
-        const menuItems =  await database.menuItem.findMany({});
+        const menuItems = await database.menuItem.findMany({});
         // ill add the error handlers later
 
         for (const item of order.items) {
             const menuItem = menuItems.find(menuItem => menuItem.id === item.menuId);
             if (!menuItem) {
                 throw new Error("Menu item not found!");
-            }   
+            }
             const price = item.quantity * Number(menuItem.price); // must convert to number because of type
             total += price;
 
@@ -65,12 +65,15 @@ export class PrismaOrderRepository implements IOrderRepository {
                         }
                     }
                 }
+            },
+            orderBy: {
+                id: 'desc'
             }
         })
         return orders;
     }
 
-    public async getOrderById(orderId: number): Promise<Order | null>{
+    public async getOrderById(orderId: number): Promise<Order | null> {
         const order = await database.order.findUnique({
             where: {
                 id: orderId
@@ -95,7 +98,7 @@ export class PrismaOrderRepository implements IOrderRepository {
             include: { type: true }
         });
 
-        if(!menuItems || menuItems.length == 0) {
+        if (!menuItems || menuItems.length == 0) {
             throw new Error("No menu items found");
         }
         return menuItems;

@@ -95,7 +95,7 @@ export class SupabaseOrderRepository implements IOrderRepository {
                     )
                 )
             `)
-            .order("id");
+            .order("id", { ascending: false });
 
         if (error) {
             throw new Error(`Failed to fetch orders: ${error.message}`);
