@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "rootDir": ".",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "generated/prisma/*": ["../generated/prisma/*"],
+      "generated/prisma": ["../generated/prisma"],
+      "*": ["*"]
+    }
+  },
+  "include": [
+    "server.ts",
+    "src/**/*",
+    "generated/prisma"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

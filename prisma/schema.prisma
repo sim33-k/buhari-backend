@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// The types of dishes are shown here, incase we want to add more varieties other than the 3 main types, it can be inserted here without creating a brand new table.
+// Main Dish, Side Dish, Dessert
+
+model Type {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(20)
+
+  MenuItem MenuItem[]
+
+  @@index([name])
+}
+
+// The actual menu items
+// Rice, Rotty, Noodles...
+
+model MenuItem {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(30)
+  price  Decimal @db.Decimal(10, 2)
+  typeId Int
+
+  type      Type        @relation(fields: [typeId], references: [id])
+  OrderItem OrderItem[]
+
+  @@index([typeId])
+}
+
+model Order {
+  id    Int      @id @default(autoincrement())
+  date  DateTime @default(now())
+  total Decimal  @db.Decimal(10, 2)
+
+  OrderItem OrderItem[]
+
+  @@index([date])
+}
+
+model OrderItem {
+  id       Int     @id @default(autoincrement())
+  orderId  Int
+  menuId   Int
+  quantity Int
+  price    Decimal @db.Decimal(10, 2)
+
+  order Order    @relation(fields: [orderId], references: [id])
+  menu  MenuItem @relation(fields: [menuId], references: [id])
+
+  @@index([orderId])
+  @@index([menuId])
+}
