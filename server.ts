@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import OrderRoutes from "./src/routes/OrderRoutes";
 import ReportRoutes from "./src/routes/ReportRoutes";

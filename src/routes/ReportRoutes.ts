@@ -1,11 +1,11 @@
 import express from "express";
 import { ReportController } from "../controllers/ReportController";
 import { ReportService } from "../services/ReportService";
-import PrismaReportRepository from "../repositories/prisma/PrismaReportRepository";
+import SupabaseReportRepository from "../repositories/supabase/SupabaseReportRepository";
 
 
 const router = express.Router(); 
-const reportRepository = new PrismaReportRepository();
+const reportRepository = new SupabaseReportRepository();
 const reportService = new ReportService(reportRepository);
 const reportController = new ReportController(reportService);
 
