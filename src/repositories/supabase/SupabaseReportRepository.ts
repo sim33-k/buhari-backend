@@ -17,7 +17,7 @@ export class SupabaseReportRepository implements IReportRepository {
             throw new Error(`Error fetching daily sales revenue: ${error.message}`);
         }
 
-        const total = data?.reduce((sum, order) => sum + (order.total || 0), 0) || null;
+        const total = data?.reduce((sum, order) => sum + (order.total || 0), 0) || 0;
 
         return {
             _sum: {
@@ -249,13 +249,9 @@ export class SupabaseReportRepository implements IReportRepository {
             throw new Error(`Error fetching sales history: ${error.message}`);
         }
 
-        if (!orders || orders.length === 0) {
-            return [];
-        }
-
         // Group by day and sum totals
         const grouped: { [key: string]: number } = {};
-        for (const order of orders) {
+        for (const order of orders || []) {
             const date = new Date(order.date);
             const dayKey = date.toISOString().split('T')[0]; // Get YYYY-MM-DD
             if (grouped[dayKey]) {
@@ -265,13 +261,18 @@ export class SupabaseReportRepository implements IReportRepository {
             }
         }
 
-        // Convert to array format matching Prisma
-        const result = Object.keys(grouped)
-            .sort()
-            .map(dateKey => ({
+        // Fill in missing dates with 0 sales
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const result = [];
+        
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            const dateKey = d.toISOString().split('T')[0];
+            result.push({
                 date: new Date(dateKey),
-                total: grouped[dateKey]
-            }));
+                total: grouped[dateKey] || 0
+            });
+        }
 
         return result;
     }

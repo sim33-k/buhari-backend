@@ -28,7 +28,12 @@ export class PrismaReportRepository implements IReportRepository {
             }
         })
 
-        return result;
+        // Return 0 if no orders exist for this date
+        return {
+            _sum: {
+                total: result._sum.total ?? 0
+            }
+        };
     }
 
     async getFamousMainDish(): Promise<any> {
@@ -240,14 +245,33 @@ export class PrismaReportRepository implements IReportRepository {
         // added the postgres function date_trunc to group by day
         // also changed the < to less than next day
         // because it wasnt showing current day orders
-        const result = await database.$queryRaw`
+        const result: any[] = await database.$queryRaw`
             SELECT date_trunc('day', date) as date, SUM(total) as total FROM "Order" 
             WHERE date >= ${startDate}::timestamp 
             AND date < (${endDate}::timestamp + interval '1 day')
             GROUP BY date_trunc('day', date) 
             ORDER BY date_trunc('day', date)
         `;
-        return result;
+
+        // Fill in missing dates with 0 sales
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const filledResult = [];
+        
+        for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            const dateStr = d.toISOString().split('T')[0];
+            const existing = result.find(r => {
+                const rDate = new Date(r.date).toISOString().split('T')[0];
+                return rDate === dateStr;
+            });
+            
+            filledResult.push({
+                date: new Date(d),
+                total: existing ? existing.total : 0
+            });
+        }
+        
+        return filledResult;
     }
 
 }

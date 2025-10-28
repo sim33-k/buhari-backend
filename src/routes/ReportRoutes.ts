@@ -4,7 +4,7 @@ import { ReportService } from "../services/ReportService";
 import SupabaseReportRepository from "../repositories/supabase/SupabaseReportRepository";
 
 
-const router = express.Router(); 
+const router = express.Router();
 const reportRepository = new SupabaseReportRepository();
 const reportService = new ReportService(reportRepository);
 const reportController = new ReportController(reportService);
