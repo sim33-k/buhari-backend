@@ -16,7 +16,8 @@ export class MenuController extends BaseController {
             const menuItems = await this.menuService.getMenuItems();
             this.sendSuccess(response, menuItems, 200);
         } catch (error) {
-            return this.sendError(response, 'error', 500);
+            console.error('MenuController error:', error);
+            return this.sendError(response, (error as Error).message || 'error', 500);
         }
     }
 }

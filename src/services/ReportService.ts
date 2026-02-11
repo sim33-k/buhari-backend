@@ -1,7 +1,7 @@
 // I will not be extending the base service, because this service is specific to reports,
 
 import { IReportRepository } from "repositories/interfaces/IReportRepository";
-import { supabase } from "../lib/SupabaseClient";
+import { database } from "../lib/Database";
 
 // Daily sales revenue
 // Most famous main dish
@@ -31,7 +31,7 @@ export class ReportService {
     public async getFamousMainDish(): Promise<any> {
         const result = await this.repository.getFamousMainDish();
         if (result.length > 0) {
-            const { data: menuItem } = await supabase.from('MenuItem').select('*').eq('id', result[0].menuId).single();
+            const menuItem = await database.menuItem.findUnique({ where: { id: result[0].menuId } });
             return { name: menuItem?.name, totalQuantity: result[0]._sum.quantity };
         }
         return null;
@@ -40,7 +40,7 @@ export class ReportService {
     public async getFamousSideDish(): Promise<any> {
         const result = await this.repository.getFamousSideDish();
         if (result.length > 0) {
-            const { data: menuItem } = await supabase.from('MenuItem').select('*').eq('id', result[0].menuId).single();
+            const menuItem = await database.menuItem.findUnique({ where: { id: result[0].menuId } });
             return { name: menuItem?.name, totalQuantity: result[0]._sum.quantity };
         }
         return null;
@@ -49,7 +49,7 @@ export class ReportService {
     public async getFamousDessert(): Promise<any> {
         const result = await this.repository.getFamousDessert();
         if (result.length > 0) {
-            const { data: menuItem } = await supabase.from('MenuItem').select('*').eq('id', result[0].menuId).single();
+            const menuItem = await database.menuItem.findUnique({ where: { id: result[0].menuId } });
             return { name: menuItem?.name, totalQuantity: result[0]._sum.quantity };
         }
         return null;

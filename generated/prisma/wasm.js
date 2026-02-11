@@ -146,7 +146,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Simaak\\Documents\\CodingLegendsInternship\\CodingLegends\\backend\\generated\\prisma",
+      "value": "/home/simaak/Documents/TERRAFORM FINAL PROJECT/Project Repositories/buhari-backend/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -155,12 +155,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-1.1.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Simaak\\Documents\\CodingLegendsInternship\\CodingLegends\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/simaak/Documents/TERRAFORM FINAL PROJECT/Project Repositories/buhari-backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -174,7 +174,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

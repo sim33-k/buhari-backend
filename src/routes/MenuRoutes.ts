@@ -1,10 +1,10 @@
 import express from "express";
 import { MenuController } from "../controllers/MenuController";
 import { MenuService } from "../services/MenuService";
-import SupabaseMenuRepository from "../repositories/supabase/SupabaseMenuRepository";
+import PrismaMenuRepository from "../repositories/prisma/PrismaMenuRepository";
 
 const router = express.Router();
-const menuRepository = new SupabaseMenuRepository();
+const menuRepository = new PrismaMenuRepository();
 const menuService = new MenuService(menuRepository);
 const menuController = new MenuController(menuService);
 
