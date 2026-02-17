@@ -5,6 +5,7 @@ pipeline {
         IMAGE_TAG    = "${BUILD_NUMBER}"
         AWS_REGION   = "ap-southeast-1"
         ECR_REGISTRY = "541645813745.dkr.ecr.ap-southeast-1.amazonaws.com"
+        REPOSITORY_NAME = "bhotel-dev-backend"
     }
 
     stages {
@@ -19,8 +20,8 @@ pipeline {
             steps {
                 sh """
                     docker build -t backend:${IMAGE_TAG} .
-                    docker tag backend:${IMAGE_TAG} ${ECR_REGISTRY}/backend:${IMAGE_TAG}
-                    docker tag backend:${IMAGE_TAG} ${ECR_REGISTRY}/backend:latest
+                    docker tag backend:${IMAGE_TAG} ${ECR_REGISTRY}/${REPOSITORY_NAME}:${IMAGE_TAG}
+                    docker tag backend:${IMAGE_TAG} ${ECR_REGISTRY}/${REPOSITORY_NAME}:latest
                 """
             }
         }
