@@ -53,6 +53,4 @@ pipeline {
             echo 'Backend pipeline failed!'
         }
     }
-
-
 }
