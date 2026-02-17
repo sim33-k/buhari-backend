@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'AWS Cloud' }
+    agent { label 'AWS' }
     environment {
         IMAGE_TAG       = "${BUILD_NUMBER}"
         AWS_REGION      = "ap-southeast-1"
