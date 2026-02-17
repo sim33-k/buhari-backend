@@ -41,7 +41,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker rmi ${ECR_REGISTRY}/backend:${IMAGE_TAG} || true'
+            sh "docker rmi ${ECR_REGISTRY}/backend:${IMAGE_TAG} || true"
             cleanWs()
         }
 
