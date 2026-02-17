@@ -41,7 +41,7 @@ pipeline {
     }
     post {
         always {
-            sh "docker rmi ${ECR_REGISTRY}/${REPOSITORY_NAME}:${IMAGE_TAG} || true"
+            sh "docker rmi 541645813745.dkr.ecr.ap-southeast-1.amazonaws.com/bhotel-dev-backend:${BUILD_NUMBER} || true"
             cleanWs()
         }
         success {
