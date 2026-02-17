@@ -8,15 +8,9 @@ import cors from "cors";
 const app = express();
 
 // Allow frontend origin from environment variable or localhost for dev
-const allowedOrigins = [
-  "https://buhari-frontend.vercel.app",
-  "http://localhost:5173",
-  "http://localhost:3000"
-];
-
-if (process.env.FRONTEND_URL) {
-  allowedOrigins.push(process.env.FRONTEND_URL);
-}
+const allowedOrigins = process.env.ALLOWED_ORIGINS 
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -31,10 +25,17 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 app.use(express.json());
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
 
 // Removed the classy approach because it felt like an overkill
 app.use("/orders", OrderRoutes);
